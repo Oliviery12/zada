@@ -1,0 +1,25 @@
+def vigenere_decrypt(ciphertext, key):
+    key_length = len(key)
+    key_as_int = [ord(i) for i in key]
+    ciphertext_int = [ord(i) for i in ciphertext]
+    plaintext = ''
+    for i in range(len(ciphertext_int)):
+        value = (ciphertext_int[i] - key_as_int[i % key_length]) % 26
+        plaintext += chr(value + 65)
+    return plaintext
+
+def find_key(ciphertext1, ciphertext2):
+    key = ''
+    for i in range(len(ciphertext1)):
+        value = (ord(ciphertext2[i]) - ord(ciphertext1[i])) % 26
+        key += chr(value + 65)
+    return key
+
+ciphertext1 = input("Tekst P: ")
+ciphertext2 = input("Tekst Q: ")
+
+key = find_key(ciphertext1, ciphertext2)
+
+print("Klucz K: ", key)
+print("Odszyfrowany tekst P: ", vigenere_decrypt(ciphertext1, key))
+print("Odszyfrowany tekst Q: ", vigenere_decrypt(ciphertext2, key))
