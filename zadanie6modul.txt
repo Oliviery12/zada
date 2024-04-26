@@ -1,0 +1,36 @@
+import hashlib
+import time
+import string
+import random
+
+
+def get_hash(hash_name, message):
+    h_o = hashlib.new(hash_name)
+    h_o.update(message.encode('utf-8'))
+    return h_o.hexdigest()
+
+
+def generate_strings(length, count):
+    return [''.join(random.choices(string.ascii_letters + string.digits, k=length)) for _ in range(count)]
+
+
+str_lengths = [5, 10, 20, 50, 100]
+
+hash_functions = ['md5', 'sha256', 'sha3_256', 'blake2s', 'sha1']
+
+
+for length in str_lengths:
+    print(f"String length: {length}")
+    strings = generate_strings(length, 10000)
+    for hash_function in hash_functions:
+        start_time = time.time()
+        hashes = [get_hash(hash_function, s) for s in strings]
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        collisions = len(hashes) - len(set(hashes))
+        print(f"{hash_function.upper()} - Time: {elapsed_time:.4f} seconds, Collisions: {collisions}")
+
+
+
+
+
